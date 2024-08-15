@@ -1,0 +1,354 @@
+.header-wrapper {
+  background-image: url("../../../public/assets/images/header/header-bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 100%;
+  height: 100vh;
+  position: relative;
+
+  overflow: hidden !important;
+}
+
+.header-light-bg {
+  position: absolute;
+  top: 0%;
+}
+
+.header-light-bg img {
+  width: 100vw;
+  height: 100vh;
+  mix-blend-mode: color-dodge;
+  opacity: 0.5;
+}
+
+.header-birds-bg {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+}
+
+.header-birds-bg img {
+  width: 56vw;
+  height: 100vh;
+  mix-blend-mode: soft-light;
+}
+
+.header-arrow-bg {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+
+  z-index: 999999999;
+  cursor: pointer;
+
+  animation: arrowanime 3s ease-in-out 0s infinite alternate-reverse forwards;
+}
+
+@keyframes arrowanime {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 1;
+    transform: translateY(-25px);
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  40% {
+    animation-timing-function: ease-in;
+    transform: translateY(-14px);
+  }
+
+  65% {
+    animation-timing-function: ease-in;
+    transform: translateY(-12px);
+  }
+
+  82% {
+    animation-timing-function: ease-in;
+    transform: translateY(-6px);
+  }
+
+  93% {
+    animation-timing-function: ease-in;
+    transform: translateY(-4px);
+  }
+
+  25%,
+  55%,
+  75%,
+  87% {
+    animation-timing-function: ease-out;
+    transform: translateY(0px);
+  }
+
+  100% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.into-center {
+  /* top: 50%; */
+  /* left: 50%; */
+  /* transform: translate(-50%); */
+  width: fit-content;
+  box-shadow: 0px 0px 9.42857px #ff0606;
+  margin-inline: auto;
+}
+
+.goto {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 32px;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: black;
+  margin: 0px !important;
+  /* padding: 15px 35px; */
+  padding-inline: 35px;
+  padding-block: 15px;
+  color: white;
+
+  /* width: 197px;
+height: 56px; */
+}
+
+.header-man-bg {
+  position: absolute;
+  bottom: 4%;
+  left: 53%;
+  transform: translate(-53%, -0%);
+}
+
+.header-man-bg img {
+  width: 85%;
+
+  animation: header-man-bg 5s ease-in-out 0s infinite normal forwards;
+}
+
+@keyframes header-man-bg {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateX(-6px);
+  }
+
+  20%,
+  40%,
+  60% {
+    transform: translateX(6px);
+  }
+
+  80% {
+    transform: translateX(6px);
+  }
+
+  90% {
+    transform: translateX(-6px);
+  }
+}
+
+.header-man-overlay {
+  position: absolute;
+  bottom: 0%;
+  left: 53%;
+
+  transform: translate(-53%, -0%);
+
+  width: 501.71px;
+  height: 707px;
+
+  background: linear-gradient(
+    0deg,
+    #ffc810 4.95%,
+    rgba(255, 255, 255, 0) 77.88%
+  );
+  filter: blur(38.3718px);
+}
+
+.header-content-wrapper .text {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header-content-wrapper .social-icon {
+  position: absolute;
+  top: 40%;
+  left: 4%;
+  transform: translate(-50%, -3%);
+}
+
+.header-content-wrapper .social-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.header-content-wrapper .social-icon-wrapper .ico {
+  transition: 0.2s ease-in-out !important;
+}
+
+.header-content-wrapper .social-icon-wrapper .ico:hover {
+  color: #ef1f1f !important;
+  transform: rotate(8.12deg);
+}
+
+.header-content-wrapper .text-para {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 2.19%,
+    #000000 52.11%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  padding: 7px;
+
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 29.4584px;
+  line-height: 38px;
+  /* identical to box height */
+
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+/*  ********* Css responsive code start from here **********  */
+
+@media screen and (max-width: 1441px) {
+  .header-content-wrapper .text-para {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 2.19%,
+      #000000 52.11%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    padding: 5px;
+
+    font-family: "Rajdhani";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    color: #ffffff;
+  }
+}
+
+.header-content-wrapper .social-icon-wrapper .ico {
+  transition: all 0.3s linear;
+  width: 30px;
+  height: 30px;
+}
+
+/*  ********* Tablet and mobile responsive code start from here **********  */
+
+@media screen and (max-width: 800px) {
+  .goto {
+    padding-inline: 20px;
+    padding-block: 8px;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header-content-wrapper .social-icon-wrapper .ico {
+    width: 25px;
+    height: 25px;
+    margin-left: -25px !important;
+  }
+
+  .header-content-wrapper .social-icon {
+    position: absolute;
+    top: 40%;
+    left: 8%;
+    transform: translate(-50%, -3%);
+  }
+  .header-content-wrapper .social-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .header-light-bg {
+    display: none;
+  }
+  .header-birds-bg {
+    display: none;
+  }
+  .header-man-bg {
+    display: none;
+  }
+  .header-man-overlay {
+    display: none;
+  }
+
+  .header-arrow-bg img {
+    width: 40px;
+  }
+
+  .header-content-wrapper .text {
+    position: absolute;
+    top: 56%;
+    left: 55%;
+    transform: translate(-50%, -55%);
+  }
+  .header-content-wrapper .text-para {
+    font-size: 12px;
+    line-height: 26px;
+  }
+  .goto {
+    padding-inline: 10px;
+    padding-block: 0px;
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width: 376px) {
+  /* .header-content-wrapper .social-icon-wrapper .ico {
+    transition: all 0.3s linear;
+    width: 17px;
+  } */
+  .header-content-wrapper .social-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* gap: 0px; */
+    cursor: pointer;
+  }
+  .header-content-wrapper .text-para {
+    font-size: 11px;
+    line-height: 24px;
+  }
+  .header-content-wrapper .social-icon {
+    position: absolute;
+    top: 30%;
+    left: 8%;
+    transform: translate(-50%, -3%);
+  }
+  .header-arrow-bg img {
+    width: 25px;
+  }
+}

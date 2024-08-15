@@ -1,0 +1,119 @@
+/* .article-D .a-content-left-side {
+  background-color: yellow !important;
+} */
+
+.article-D-content h3 {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 38px;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.article-D-content span {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 22px;
+
+  color: #b1a9a9;
+}
+
+.article-D-content .name {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 32px;
+  text-transform: uppercase;
+  color: #ffffff;
+
+  margin-top: 40px;
+}
+
+.article-D-content .details {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
+  text-transform: lowercase;
+  text-align: justify;
+
+  color: #ffffff;
+
+  margin-top: 30px;
+}
+.metaverse {
+  text-align: center;
+}
+.metaverse h3 {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35.2174px;
+  line-height: 45px;
+
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.metaverse .meta-details {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
+  text-transform: lowercase;
+
+  color: #ffffff;
+  text-align: justify;
+}
+
+@media screen and (max-width: 1921px) {
+  .article-D-content .details {
+    font-family: "Rajdhani";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    text-transform: lowercase;
+    text-align: justify;
+
+    color: #ffffff;
+
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-width: 1537px) {
+  .article-D-content .details {
+    font-family: "Rajdhani";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 17px;
+    text-transform: lowercase;
+    text-align: justify;
+
+    color: #ffffff;
+
+    margin-top: 30px;
+  }
+  .metaverse .meta-details {
+    font-family: "Rajdhani";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    text-transform: lowercase;
+
+    color: #ffffff;
+    text-align: justify;
+  }
+}

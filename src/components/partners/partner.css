@@ -1,0 +1,29 @@
+.partner-container {
+  margin: 70px 0px;
+  overflow-x: hidden;
+}
+
+.partner-container .p-section-breaker {
+  margin: 70px 0px;
+}
+
+.partner-container .p-section-breaker img {
+  width: 100%;
+}
+
+.partner-container .partner-title {
+  margin: 60px 0px;
+  text-align: center;
+}
+
+.partner-container .partner-title h3 {
+  font-family: "Glaive";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 60px;
+  text-align: center;
+  /* margin-left: -50px; */
+
+  color: #ffc810;
+}

@@ -1,0 +1,184 @@
+.footer-container {
+  margin: 70px 0px;
+  overflow-x: hidden;
+}
+
+.footer-container .f-section-breaker {
+  margin: 70px 0px;
+}
+
+.footer-container .f-section-breaker img {
+  width: 100%;
+}
+
+.footer-container .owner {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 27.5809px;
+  font-size: clamp(24px, 4vw, 27.5809px);
+  line-height: 35px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.footer-container .supervet-text {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 27.8242px;
+  line-height: 36px;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 3px 5px;
+  border-radius: 3px;
+
+  color: #000000;
+
+  background: #ffc810;
+}
+
+.footer-container .learn-more h3 {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  /* font-weight: clamp(400, 3vw, 700); */
+  /* font-size: 22.9343px; */
+  font-size: clamp(20px, 5vw, 23px);
+
+  line-height: 29px;
+  text-transform: uppercase;
+  color: #ffc810;
+}
+
+.footer-container .learn-more {
+  margin-top: 27px;
+}
+
+.footer-container .learn-more ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.footer-container .learn-more ul li a {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  font-size: clamp(15px, 5vw, 16px);
+  line-height: 26px;
+  color: #fff;
+  cursor: pointer;
+  padding: 1px 0px;
+}
+
+.footer-container .learn-more .Subscribe-us {
+  font-family: "Rajdhani";
+  font-style: normal;
+  /* font-weight: 700; */
+  font-weight: clamp(400, 3vw, 700);
+  /* font-size: 30px; */
+  font-size: clamp(20px, 3vw, 30px);
+  line-height: 44px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: right;
+  color: #ffc810;
+}
+
+.email-field {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: end;
+}
+
+.footer-container .email-field input {
+  background: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
+
+  border: 1px solid #ffc810;
+  color: #ffc810;
+  border-radius: 14px 0px 0px 13px;
+  padding: 14.5px;
+}
+
+.footer-container .email-field img {
+  margin-left: -12px;
+  /* margin-top: -4.5px; */
+  cursor: pointer;
+}
+
+.footer-container ::placeholder {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: 0.02em;
+
+  color: #ffc810;
+}
+
+.footerRowSplit {
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 1025px) {
+  .footer-container .email-field input {
+    background: none;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    border: 1px solid #ffc810;
+    border-radius: 10px 0px 0px 13px;
+    padding: 6.5px;
+  }
+  .footer-container .email-field img {
+    margin-left: -10px;
+    /* margin-top: -3.5px; */
+    cursor: pointer;
+
+    width: 50px;
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .f-logo {
+    text-align: center;
+    width: 200px;
+  }
+  .footerRowSplit {
+    flex-direction: column !important;
+  }
+
+  .footer-container .learn-more .Subscribe-us {
+    text-align: left;
+  }
+
+  .email-field {
+    justify-content: start;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer-container .supervet-text {
+    font-family: "Rajdhani";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 36px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 3px 5px;
+    border-radius: 3px;
+    color: #000000;
+    background: #ffc810;
+  }
+}

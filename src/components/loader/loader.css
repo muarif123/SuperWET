@@ -1,0 +1,27 @@
+.loader-wrapper {
+  /* background: url("../../../public/assets/images/loader/Marketplaceone.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; */
+
+  position: relative;
+  /* z-index: -9; */
+
+  width: 100%;
+  height: 100vh;
+}
+
+/* .loader-wrapper img {
+  width: 100%;
+  height: 100vh;
+} */
+
+.loader-wrapper video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}

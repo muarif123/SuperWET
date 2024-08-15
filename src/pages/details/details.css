@@ -1,0 +1,352 @@
+.details-wrapper {
+  padding-bottom: 100px;
+
+  position: relative;
+}
+
+.details-wrapper .d-ellipse-1 {
+  background: rgba(255, 159, 16, 0.5);
+  filter: blur(201.128px);
+  backdrop-filter: blur(10px);
+
+  width: 400px;
+  height: 400px;
+
+  position: absolute;
+  top: 10%;
+  left: 7%;
+
+  z-index: -99;
+}
+
+.details-wrapper .d-ellipse-2 {
+  background: rgba(255, 159, 16, 0.5);
+  filter: blur(201.128px);
+  backdrop-filter: blur(10px);
+
+  width: 350px;
+  height: 350px;
+
+  position: absolute;
+  top: 25%;
+  right: 7%;
+
+  z-index: -99;
+}
+
+.details-wrapper .details-content {
+  padding-top: 150px;
+}
+
+.details-wrapper .details-r-side .socail-icon {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+
+  text-transform: capitalize;
+
+  color: #ffffff;
+}
+
+/* .details-wrapper .details-r-side .socail-icon .ico {
+  padding-left: 10px;
+} */
+
+.details-wrapper .details-r-side .pages-links {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+
+  text-transform: capitalize;
+
+  color: #ffffff;
+}
+
+.details-wrapper .details-r-side .d-title {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 38px;
+  text-transform: capitalize;
+
+  color: #ffffff;
+}
+
+.details-wrapper .details-r-side .d-description {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: lowercase;
+  text-align: justify;
+
+  color: #ffffff;
+}
+
+/* .details-wrapper .details-r-side .d-btn {
+  background-image: url("../../../public/assets/images/detailscard/Vector\ 5.png");
+
+  height: 42px;
+  max-width: 205px;
+} */
+
+.details-wrapper .details-r-side .d-btn {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22.1196px;
+  line-height: 28px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: capitalize;
+
+  border: 2px solid white;
+  padding: 7px 15px;
+  cursor: pointer;
+}
+
+.details-wrapper .details-r-side .view-on {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  text-transform: capitalize;
+
+  color: #ffffff;
+}
+
+/* ********category css start  ********* */
+.category-wrapper {
+  background: rgba(53, 53, 53, 0.3);
+  border: 0.8px solid #ffffff;
+  backdrop-filter: blur(26.145px);
+
+  border-radius: 3px;
+}
+
+.category-wrapper .category-inner-wrapper {
+  padding: 25px 30px;
+  width: 84%;
+  margin: 0 auto;
+}
+
+.category-wrapper .category-inner-wrapper > div > :nth-child(1) {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+
+  text-transform: uppercase;
+
+  color: #afafaf;
+}
+
+.category-wrapper .category-inner-wrapper > div > :nth-child(2) {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.category-wrapper .category-inner-wrapper > div > :nth-child(3) {
+  margin-top: -45px;
+}
+
+/* ********similar-card css start  ********* */
+
+.simillar-cards-wrapper {
+  margin-top: 40px;
+  margin-bottom: 70px;
+
+  position: relative;
+}
+
+.simillar-cards-wrapper .s-ellipse-1 {
+  background: rgba(255, 200, 16, 0.3);
+  filter: blur(290.032px);
+  backdrop-filter: blur(97px);
+
+  background-color: #ff8d00;
+  width: 400px;
+  height: 600px;
+
+  position: absolute;
+  top: 28%;
+  left: -5%;
+}
+
+.simillar-cards-wrapper .cards-line-breaker {
+  width: 100%;
+}
+
+.simillar-cards-wrapper .cards-title {
+  font-family: "Glaive";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 60px;
+  text-align: center;
+
+  color: #ffc810;
+
+  margin: 50px 0px;
+}
+
+.simillar-cards-wrapper .card-contents {
+  background-image: url(../../../public/assets/images/detailscard/Ivy\ gn.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-color: transparent;
+
+  padding: 25px !important;
+}
+
+.simillar-cards-wrapper .card-content-inner .card-name {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17.7444px;
+  line-height: 23px;
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.simillar-cards-wrapper .card-content-inner .card-color {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 14px;
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffc810;
+  margin-left: 7px;
+
+  background: rgba(255, 200, 16, 0.4);
+  border-radius: 0.661381px;
+}
+
+.simillar-cards-wrapper .card-content-inner .human-body {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  text-align: center;
+  text-transform: capitalize;
+
+  color: #b7b7b7;
+}
+
+.simillar-cards-wrapper .card-content-inner .card-art {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.simillar-cards-wrapper .card-content-inner .card-designer {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.simillar-cards-wrapper .card-content-inner .card-price {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.simillar-cards-wrapper .card-content-inner .card-value {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #ffc810;
+}
+
+.simillar-cards-wrapper .card-body {
+  flex: 1 1 auto;
+  padding: 0rem 0rem;
+}
+
+@media screen and (max-width: 1369px) {
+  .details-wrapper .d-ellipse-1 {
+    background: rgba(255, 159, 16, 0.5);
+    filter: blur(201.128px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 26%;
+    left: 7%;
+    z-index: -99;
+  }
+  .details-wrapper .d-ellipse-2 {
+    background: rgba(255, 159, 16, 0.5);
+    filter: blur(174.128px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    width: 280px;
+    height: 300px;
+    position: absolute;
+    top: 32%;
+    /* bottom: 25%; */
+    right: 7%;
+    z-index: -99;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .details-wrapper .d-ellipse-1 {
+    display: none;
+  }
+  .details-wrapper .d-ellipse-2 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .simillar-cards-wrapper .s-ellipse-1 {
+    display: none;
+  }
+}

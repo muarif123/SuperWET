@@ -1,0 +1,111 @@
+.intro-wrapper-upper-first {
+  background: url("../../../public/assets/images/loader/into-bg.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+
+  width: 100%;
+  height: 100vh;
+
+  /* margin-top: 0px; */
+  position: relative;
+}
+
+.intro-wrapper-upper-first .into-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  box-shadow: 0px 0px 9.42857px #FF0606;
+}
+
+.man-into {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.man-bg {
+  width: 85%;
+
+  animation: myAnim 5s ease-in-out 0s infinite normal forwards;
+}
+
+@keyframes myAnim {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateX(-6px);
+  }
+
+  20%,
+  40%,
+  60% {
+    transform: translateX(6px);
+  }
+
+  80% {
+    transform: translateX(6px);
+  }
+
+  90% {
+    transform: translateX(-6px);
+  }
+}
+
+.intro-wrapper-upper-first .goto {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 39.2857px;
+  line-height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+
+  background-color: black;
+
+  padding: 20px 35px;
+}
+
+.intro-wrapper-upper-first .goto a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  .intro-wrapper-upper-first {
+    overflow-x: hidden;
+  }
+
+  .intro-wrapper-upper-first .goto {
+    font-family: "Rajdhani";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22.2857px;
+    line-height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: black;
+    padding: 7px 19px;
+  }
+  .intro-wrapper-upper-first {
+    background-size: cover;
+  }
+  .man-into {
+    position: absolute;
+    bottom: 0%;
+    left: 23%;
+    transform: translate(-50%, 0%);
+  }
+  .man-bg {
+    width: 150%;
+    animation: myAnim 5s ease-in-out 0s infinite normal forwards;
+  }
+}
