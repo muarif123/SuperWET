@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import Web3 from "web3";
 const NFTcards = props => {
-  const { id, url, image, status, catergory, cardColor } = props;
+  const { id, url, image, status, catergory, cardColor,price } = props;
 
   const [CardData, setCardData] = useState();
 
@@ -52,7 +52,7 @@ const NFTcards = props => {
               </div>
               <div>
                 <span className="card-price">Price : </span>
-                <span className="card-value">250 SVET </span>
+                <span className="card-value">{Web3.utils.fromWei(props.price, 'ether')} ETH </span>
               </div>
             </div>
           </div>
