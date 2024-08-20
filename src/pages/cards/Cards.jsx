@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Footer from "../../components/footer/Footer";
 import "./card.css";
 import { useNavigate } from "react-router-dom";
-
+import Web3 from 'web3'
 import { Icon } from "@iconify/react";
 
 import { ProSidebarProvider } from "react-pro-sidebar";
@@ -17,7 +17,408 @@ import AuctionCards from "./AuctionCards";
 import OffersCard from "./OffersCard";
 import NFTcards from "./NFTcards";
 import Navigation2 from "../../components/header/navigation/Navigation2";
-
+const marketplaceAddress = '0x7bACcD4253A37eABBF967B293Af07FC6ec740705'
+const abi = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "initialOwner",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IERC721",
+                "name": "_NftMinting",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_USDCAddress",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "target",
+                "type": "address"
+            }
+        ],
+        "name": "AddressEmptyCode",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "AddressInsufficientBalance",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "listIndex",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "buyNft",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "listIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "CancelListForSale",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "FailedInnerCall",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_mintContract",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "listNft",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableInvalidOwner",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableUnauthorizedAccount",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "SafeERC20FailedOperation",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "previousOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllNftListedNfts",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "components": [
+                            {
+                                "internalType": "address",
+                                "name": "owner",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "seller",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "tokenId",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "count",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "bool",
+                                "name": "listed",
+                                "type": "bool"
+                            }
+                        ],
+                        "internalType": "struct NFTMarketplace.ListNft",
+                        "name": "listedData",
+                        "type": "tuple"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "listCount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "uriData",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct NFTMarketplace.ListedNftNftTokenId[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "listCount",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "contractAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nextNftListId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "_value",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "NftContract",
+        "outputs": [
+            {
+                "internalType": "contract IERC721",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tokenAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "userCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "userListCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "userNftListings",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "seller",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "count",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "listed",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
 const vetsData = [
   {
     id: "1",
@@ -201,8 +602,71 @@ const Cards = () => {
   const [active, setActive] = useState(true);
   const [active2, setActive2] = useState(false);
   const [active3, setActive3] = useState(false);
-
+  const [nfts, setnfts] = useState([])
   const [siderbar, setsiderbar] = useState(false);
+  const getAllLandNfts = async () => {
+    
+    if (typeof window.ethereum === 'undefined') {
+        console.error("MetaMask is not installed");
+        return;
+    }
+    try {
+
+        const web3 = new Web3(window.ethereum);
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        console.log(accounts,'metamask acc');
+        
+    
+        const marketContract = new web3.eth.Contract(abi, marketplaceAddress);
+
+        if (typeof marketContract.methods.getAllNftListedNfts !== 'function') {
+            throw new Error('Method getAllLandListedNfts not found in ABI');
+        }
+    
+        const GetAllLandNfts = await marketContract.methods.getAllNftListedNfts().call();
+        const nftsWithMetadata = await Promise.all(
+            GetAllLandNfts.map(async (nft) => {
+                try {
+                    const response = await fetch(nft[2]); // Assuming `nft[2]` is the URI
+                    const metadata = await response.json();
+                    return {
+                        ...nft,
+                        metadata
+                    };
+                } catch (error) {
+                    console.error('Error fetching metadata for NFT:', nft, error);
+                    return null;
+                }
+            })
+        );
+
+        // Filter out any NFTs that failed to fetch metadata
+        setnfts(nftsWithMetadata.filter(nft => nft !== null));
+
+    
+        
+    } catch (error) {
+        console.error('Error fetching NFTs:', error);
+        
+    }
+    
+};
+useEffect(()=>{
+    
+
+    getAllLandNfts();
+},[])
+const handleAccountsChanged = () => {
+getAllLandNfts();
+};
+
+const handleChainChanged = () => {
+getAllLandNfts();
+};
+
+window.ethereum.on('accountsChanged', handleAccountsChanged);
+window.ethereum.on('chainChanged', handleChainChanged);
+
 
   const navigate = useNavigate();
 
@@ -234,6 +698,7 @@ const Cards = () => {
       .querySelector(".mobile-sidebar-animate")
       .classList.toggle("myStyle10");
   };
+  console.log(nfts,'LISTlandnfts');
 
   function Items() {
     return vetsData.map((data) => {
@@ -242,28 +707,46 @@ const Cards = () => {
       }
 
       return (
-        <a
-          className="col-lg-4 col-md-6 col-12 mt-4"
-          style={{ cursor: "pointer" }}
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/detail", {
-              state: {
-                data: data,
-              },
-            });
-            window.scrollTo(0, 0);
-          }}
-        >
-          <NFTcards
-            id={data.id}
-            url={data.url}
-            image={data.image}
-            status={data.status}
-            catergory={data.catergory}
-            cardColor={"Red"}
-          />
-        </a>
+      
+        <>
+        {nfts.map((item, index) => (
+          <a
+            key={index}
+            className="col-lg-3 col-md-6 col-12 mt-4"
+            style={{ cursor: "pointer" }}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/detail", {
+                state: {
+                  data: {
+                    id:item[0].tokenId,
+                    url:item.uriData,
+                    name:item.metadata.name,
+                    description:item.metadata.description,
+                    image:item.metadata.image,
+                    status:data.status,
+                    catergory:data.catergory,
+                    cardColor:"Red",
+                    price:item.listedData.price
+
+                  },
+                },
+              });
+              window.scrollTo(0, 0);
+            }}
+          >
+            <NFTcards
+              id={item[0].tokenId}
+              url={item.uriData}
+              image={item.metadata.image}
+              status={data.status}
+              catergory={data.catergory}
+              cardColor={"Red"}
+              price={item.listedData.price}
+            />
+          </a>
+        ))}
+      </>
       );
     });
   }
@@ -293,7 +776,7 @@ const Cards = () => {
     return (
       <>
         {cardData.map((card, index) => (
-          <a className="col-lg-4 col-md-6 col-12 mt-4">
+          <a className="col-lg-3 col-md-6 col-12 mt-4">
             <div class="card card-contents p-3">
               <div>
                 <img
@@ -387,213 +870,18 @@ const Cards = () => {
         <div className="sb-ellipse-3"></div>
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
           <Row>
-            <div
-              className="d-flex align-items-center justify-content-between"
-              style={{ position: "relative", zIndex: "4" }}
-            >
-              <div className="Show-Category">Collections</div>
-              <Icon
-                icon="eva:arrow-ios-forward-fill"
-                color="white"
-                width="48"
-                className="Show-Category"
-                x
-                onClick={showsidebar}
-              />
-            </div>
-            <Col className="mobile-sidebar-animate" sm={3}>
-              <button
-                className="shadow-none sidebar-btn mt-5"
-                onClick={showTabs}
-              >
-                <span className="d-flex justify-content-between ">
-                  <span>Status</span>
-                  <span>
-                    <Icon
-                      className="ico"
-                      icon="ep:arrow-down-bold"
-                      color="white"
-                      width="20"
-                    />
-                  </span>
-                </span>
-              </button>
-
-              <Nav variant="pills" className="flex-column tabs-dropdown">
-                <Nav.Item>
-                  <Nav.Link onClick={activetab} eventKey="first">
-                    {active ? (
-                      <Icon
-                        icon="akar-icons:check-box-fill"
-                        color="#ffc810"
-                        width="32"
-                      />
-                    ) : (
-                      <Icon
-                        icon="akar-icons:check-box"
-                        color="#ffc810"
-                        width="32"
-                      />
-                    )}
-                    &nbsp; Buy Now
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link onClick={activetab2} eventKey="second">
-                    {active2 ? (
-                      <Icon
-                        icon="akar-icons:check-box-fill"
-                        color="#ffc810"
-                        width="32"
-                      />
-                    ) : (
-                      <Icon
-                        icon="akar-icons:check-box"
-                        color="#ffc810"
-                        width="32"
-                      />
-                    )}
-                    &nbsp;On Auction
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link onClick={activetab3} eventKey="third">
-                    {active3 ? (
-                      <Icon
-                        icon="akar-icons:check-box-fill"
-                        color="#ffc810"
-                        width="32"
-                      />
-                    ) : (
-                      <Icon
-                        icon="akar-icons:check-box"
-                        color="#ffc810"
-                        width="32"
-                      />
-                    )}
-                    &nbsp; Has Offer
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav>
-
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span>CATEGORY</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span>CHAIN</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span>COLLECTION</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span> BACKGROUND</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span> BACKGROUND</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span> OUTFITS</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span> HEROS</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-              <button className="shadow-none sidebar-btn-2">
-                <span className="d-flex justify-content-between ">
-                  <span> HEROS</span>
-                  <span>
-                    <Icon icon="ep:arrow-right-bold" color="white" width="20" />
-                  </span>
-                </span>
-              </button>
-            </Col>
-            <Col sm={9}>
+           
+          
               <div className="simillar-cards-wrapper">
-                <div className="row mt-4">
-                  {/* <div className="col-lg-4 col-md-6 col-12">
-                    <div class="card card-contents p-3">
-                      <img
-                        src="..\assets\images\detailscard\Mask group.png"
-                        class="card-img-top img-fluid"
-                        alt="..."
-                      />
-                      <div class="card-body  card-content-inner mt-3">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <span className="card-name">Maximus</span>
-                            <span className="card-color">Yellow</span>
-                          </div>
-                          <div>
-                            <span className="human-body">Human Body</span>
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <span className="card-art">Art By</span>
-                            <span className="card-designer">
-                              : zohaib qurash
-                            </span>
-                          </div>
-                          <div>
-                            <span className="card-price">Price : </span>
-                            <span className="card-value">2.25SVET </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-
+                <div className="mt-4 row">
+                 
+                  
                   <Items />
-                  <DummyItems />
+                  {/* <DummyItems /> */}
                 </div>
               </div>
-              {/* <Tab.Content>
-                <Tab.Pane eventKey="first">
-                  <Buynowcards />
-                </Tab.Pane>
-                <Tab.Pane eventKey="second">
-                  <AuctionCards />
-                </Tab.Pane>
-                <Tab.Pane eventKey="third">
-                  <OffersCard />
-                </Tab.Pane>
-              </Tab.Content> */}
-            </Col>
+              
+           
           </Row>
         </Tab.Container>
       </div>

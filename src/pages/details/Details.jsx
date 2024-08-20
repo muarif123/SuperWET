@@ -5,7 +5,7 @@ import Footer from "../../components/footer/Footer";
 
 import { Icon } from "@iconify/react";
 import Navigation2 from "../../components/header/navigation/Navigation2";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import NFTCollection from "../../abi/contracts/contracts/NFTCollection.json";
@@ -20,6 +20,409 @@ import TokenContext from "../../store/token-context";
 import { useContext } from "react";
 
 import Web3 from "web3";
+import NFTcards from "../cards/NFTcards.jsx";
+const marketplaceAddress = '0x7bACcD4253A37eABBF967B293Af07FC6ec740705'
+const abi = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "initialOwner",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IERC721",
+                "name": "_NftMinting",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_USDCAddress",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "target",
+                "type": "address"
+            }
+        ],
+        "name": "AddressEmptyCode",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "AddressInsufficientBalance",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "listIndex",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "buyNft",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "listIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "CancelListForSale",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "FailedInnerCall",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_mintContract",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "listNft",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableInvalidOwner",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "OwnableUnauthorizedAccount",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "SafeERC20FailedOperation",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "previousOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllNftListedNfts",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "components": [
+                            {
+                                "internalType": "address",
+                                "name": "owner",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "address",
+                                "name": "seller",
+                                "type": "address"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "tokenId",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "count",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "price",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "bool",
+                                "name": "listed",
+                                "type": "bool"
+                            }
+                        ],
+                        "internalType": "struct NFTMarketplace.ListNft",
+                        "name": "listedData",
+                        "type": "tuple"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "listCount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "uriData",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct NFTMarketplace.ListedNftNftTokenId[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "listCount",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "contractAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nextNftListId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "_value",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "NftContract",
+        "outputs": [
+            {
+                "internalType": "contract IERC721",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tokenAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "userCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "userListCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "userNftListings",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "seller",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "count",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "listed",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
 
 const contract_address = "0x07B255e36b4D83e8ACd6B44d463cE07834330DE3";
 // const token_contract_address = "0x8372FaCF3B163B7A8CfC387B5C62db0cAb050274";
@@ -35,6 +438,9 @@ let web3;
 const Details = () => {
   const location = useLocation();
   const { data } = location.state;
+  console.log(data,'data');
+  const [nfts, setnfts] = useState([])
+  
   const [CardData, setCardData] = useState();
 
   const { address, balance } = useAccount();
@@ -61,19 +467,81 @@ const Details = () => {
 
     loadBlockchainData();
   }, []);
+  const getAllLandNfts = async () => {
+    
+    if (typeof window.ethereum === 'undefined') {
+        console.error("MetaMask is not installed");
+        return;
+    }
+    try {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(data?.url);
-        setCardData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+        const web3 = new Web3(window.ethereum);
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        console.log(accounts,'metamask acc');
+        
+    
+        const marketContract = new web3.eth.Contract(abi, marketplaceAddress);
 
-    fetchData();
-  }, []);
+        if (typeof marketContract.methods.getAllNftListedNfts !== 'function') {
+            throw new Error('Method getAllLandListedNfts not found in ABI');
+        }
+    
+        const GetAllLandNfts = await marketContract.methods.getAllNftListedNfts().call();
+        const nftsWithMetadata = await Promise.all(
+            GetAllLandNfts.map(async (nft) => {
+                try {
+                    const response = await fetch(nft[2]); // Assuming `nft[2]` is the URI
+                    const metadata = await response.json();
+                    return {
+                        ...nft,
+                        metadata
+                    };
+                } catch (error) {
+                    console.error('Error fetching metadata for NFT:', nft, error);
+                    return null;
+                }
+            })
+        );
+
+        // Filter out any NFTs that failed to fetch metadata
+        setnfts(nftsWithMetadata.filter(nft => nft !== null));
+
+    
+        
+    } catch (error) {
+        console.error('Error fetching NFTs:', error);
+        
+    }
+    
+};
+useEffect(()=>{
+    
+
+    getAllLandNfts();
+},[])
+const handleAccountsChanged = () => {
+getAllLandNfts();
+};
+
+const handleChainChanged = () => {
+getAllLandNfts();
+};
+
+window.ethereum.on('accountsChanged', handleAccountsChanged);
+window.ethereum.on('chainChanged', handleChainChanged);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(data?.url);
+  //       setCardData(response.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const buyCard = () => {
     const price = "250";
@@ -131,6 +599,9 @@ const Details = () => {
     }
     
   };
+  console.log(CardData,'');
+  const navigate = useNavigate();
+  
 
   return (
     <>
@@ -144,7 +615,7 @@ const Details = () => {
             <div className="col-lg-6 ">
               <div className="d-flex justify-content-start align-items-center">
                 <div className="NftCardImage">
-                  <img
+                  <img style={{height:"450px",width:"350px"}}
                     className="img-fluid"
                     // src="..\assets\images\detailscard\Ivy green.png"
                     src={data?.image}
@@ -177,13 +648,13 @@ const Details = () => {
 
               <p className="pages-links">
                 <span> Home / </span> <span>Collection /</span>{" "}
-                {CardData?.name + " "}
+                {data?.name + " "}
                 {/* Green */}
               </p>
-              <h3 className="d-title"> {CardData?.name} </h3>
-              <p className="d-description mb-4">{CardData?.description}</p>
+              <h3 className="d-title"> {data?.name} </h3>
+              <p className="d-description mb-4">{data?.description}</p>
 
-              <span style={{ color: "#ffc810" }}>Price</span>: 250 SVET
+              <span style={{ color: "#ffc810" }}>Price</span>: {Web3.utils.fromWei(data?.price, 'ether')} ETH
               <span
                 className="d-btn ms-3"
                 onClick={e => {
@@ -240,256 +711,46 @@ const Details = () => {
           <h3 className="cards-title">Similar items</h3>
 
           <div className="row">
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group.png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {nfts.map((item, index) => (
+          <a
+            key={index}
+            className="col-lg-3 col-md-6 col-12 mt-4"
+            style={{ cursor: "pointer" }}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/detail", {
+                state: {
+                  data: {
+                    id:item[0].tokenId,
+                    url:item.uriData,
+                    name:item.metadata.name,
+                    description:item.metadata.description,
+                    image:item.metadata.image,
+                    status:data.status,
+                    catergory:data.catergory,
+                    cardColor:"Red",
+                    price:item.listedData.price
 
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group 3.png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group (1).png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group (2).png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  },
+                },
+              });
+              window.scrollTo(0, 0);
+            }}
+          >
+            <NFTcards
+              id={item[0].tokenId}
+              url={item.uriData}
+              image={item.metadata.image}
+              status={data.status}
+              catergory={data.catergory}
+              cardColor={"Red"}
+              price={item.listedData.price}
+            />
+          </a>
+        ))}
           </div>
 
-          <div className="row mt-4">
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group.png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group 3.png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group (1).png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="card card-contents p-3">
-                <img
-                  src="..\assets\images\detailscard\Mask group (2).png"
-                  className="card-img-top img-fluid"
-                  alt="..."
-                />
-                <div className="card-body  card-content-inner mt-3">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-name">Maximus</span>
-                      <span className="card-color">Yellow</span>
-                    </div>
-                    <div>
-                      <span className="human-body">Human Body</span>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span className="card-art">Art By</span>
-                      <span className="card-designer">: zohaib qurash</span>
-                    </div>
-                    <div>
-                      <span className="card-price">Price : </span>
-                      <span className="card-value">2.25SVET </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        
         </div>
       </section>
 
