@@ -613,8 +613,8 @@ const Cards = () => {
     try {
 
         const web3 = new Web3(window.ethereum);
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log(accounts,'metamask acc');
+        // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // console.log(accounts,'metamask acc');
         
     
         const marketContract = new web3.eth.Contract(abi, marketplaceAddress);
